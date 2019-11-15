@@ -33,6 +33,9 @@ $(document).ready(function() {
       if ($('#showDropdowns').is(':checked'))
         options.showDropdowns = true;
 
+      if ($('#showDropdownsYearMonth').is(':checked'))
+        options.showDropdownsYearMonth = true;
+
       if ($('#showWeekNumbers').is(':checked'))
         options.showWeekNumbers = true;
 
@@ -71,6 +74,7 @@ $(document).ready(function() {
       if ($('#locale').is(':checked')) {
         options.locale = {
           format: 'MM/DD/YYYY',
+          formatMonthTitle: "",
           separator: ' - ',
           applyLabel: 'Apply',
           cancelLabel: 'Cancel',
