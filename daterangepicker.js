@@ -41,6 +41,7 @@
         this.autoApply = false;
         this.singleDatePicker = false;
         this.showDropdowns = false;
+        this.showDropdownsYearMonth = false;
         this.showWeekNumbers = false;
         this.showISOWeekNumbers = false;
         this.showCustomRangeLabel = true;
@@ -141,6 +142,9 @@
             if (typeof options.locale.format === 'string')
                 this.locale.format = options.locale.format;
 
+            if (typeof options.locale.formatMonthTitle === 'string')
+                this.locale.formatMonthTitle = options.locale.formatMonthTitle;
+
             if (typeof options.locale.separator === 'string')
                 this.locale.separator = options.locale.separator;
 
@@ -233,6 +237,9 @@
 
         if (typeof options.showDropdowns === 'boolean')
             this.showDropdowns = options.showDropdowns;
+
+        if (typeof options.showDropdownsYearMonth === 'boolean')
+            this.showDropdownsYearMonth = options.showDropdownsYearMonth;
 
         if (typeof options.showCustomRangeLabel === 'boolean')
             this.showCustomRangeLabel = options.showCustomRangeLabel;
@@ -715,9 +722,8 @@
                 html += '<th></th>';
             }
 
-            var dateHtml = this.locale.monthNames[calendar[1][1].month()] + calendar[1][1].format(" YYYY");
-
-            if (this.showDropdowns) {
+            var dateHtml;
+            if (this.showDropdowns || this.showDropdownsYearMonth) {
                 var currentMonth = calendar[1][1].month();
                 var currentYear = calendar[1][1].year();
                 var maxYear = (maxDate && maxDate.year()) || (currentYear + 5);
@@ -747,7 +753,18 @@
                 }
                 yearHtml += '</select>';
 
-                dateHtml = monthHtml + yearHtml;
+                if (this.showDropdownsYearMonth) {
+                    dateHtml = yearHtml + monthHtml;
+                } else {
+                    dateHtml = monthHtml + yearHtml;
+                }
+
+            } else {
+                if(this.locale.formatMonthTitle) {
+                    dateHtml = calendar[1][1].format(this.locale.formatMonthTitle);
+                } else {
+                    dateHtml = this.locale.monthNames[calendar[1][1].month()] + calendar[1][1].format(" YYYY");
+                }
             }
 
             html += '<th colspan="5" class="month">' + dateHtml + '</th>';
